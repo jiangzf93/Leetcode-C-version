@@ -1,0 +1,34 @@
+public class Solution {
+
+    public int MovingCount(int m, int n, int k) {
+        bool[,] visit=new bool[m,n];
+        return PartialCount(visit,k,0,0,m,n);
+    }
+
+    public int PartialCount(bool[,] visit,int limit,int row,int col,int rows,int cols){
+        int counts=0;
+        if(col>=0 && col<cols && row>=0 && row<rows && visit[row,col]==false &&
+            getSum(row,col)<=limit){
+            visit[row,col]=true;
+            counts=1+PartialCount(visit,limit,row+1,col,rows,cols)+
+                    PartialCount(visit,limit,row-1,col,rows,cols)+
+                    PartialCount(visit,limit,row,col+1,rows,cols)+
+                    PartialCount(visit,limit,row,col-1,rows,cols);    
+        }
+        return counts;
+    }
+
+    public int getSum(int row,int col){
+        int result=0;
+        while(row>0){
+            result+=row%10;
+            row/=10;
+        }
+        while(col>0){
+            result+=col%10;
+            col/=10;
+        }
+        return result;
+    }
+
+}
