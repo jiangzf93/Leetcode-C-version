@@ -1,0 +1,21 @@
+public class Solution {
+    public bool IsMatch(string s, string p) {
+        int sLen = s.Length;
+        int pLen = p.Length;
+        return Match(s,p,sLen,pLen,0,0);
+    }
+    public bool Match(string str,string pat,int sLen,int pLen,int sPos,int pPos){
+        if(pPos==pLen&&sPos==sLen) return true;
+        if(sPos>sLen||pPos>=pLen) return false;
+        if(pPos+1<pLen&&pat[pPos+1]=='*'){
+            if(sPos==sLen||(str[sPos]!=pat[pPos]&&pat[pPos]!='.')) 
+                return Match(str,pat,sLen,pLen,sPos,pPos+2);
+            return Match(str,pat,sLen,pLen,sPos,pPos+2)||Match(str,pat,sLen,pLen,sPos+1,pPos)
+                ||Match(str,pat,sLen,pLen,sPos+1,pPos+2);
+        }
+        if(sPos<sLen&&(str[sPos]==pat[pPos]||pat[pPos]=='.')){
+            return Match(str,pat,sLen,pLen,sPos+1,pPos+1);
+        }
+        return false;
+    }
+}
