@@ -1,0 +1,41 @@
+public class Solution {
+    public bool IsNumber(string s) {
+        s=s.Trim();
+        int len=s.Length;
+        int point=0;
+        int exp=0;
+        bool has_point=false;
+        bool has_exp=false;
+        bool base_symbol=false;
+        bool exp_symbol=false;
+        if(len==0) return false;
+        for(int i=0;i<len;i++){
+            if(s[i]-'0'<0||s[i]-'0'>9){
+                if(s[i]=='.'){
+                    if(has_point||(i-exp>0&&has_exp==true)) return false;
+                    else{
+                        point=i;
+                        has_point=true;
+                    }
+                }
+                else if(s[i]=='e'||s[i]=='E'){
+                    if(has_exp||i-point<0||i==0) return false;
+                    else{
+                        has_exp=true;
+                        exp=i;
+                    }
+                }else if(s[i]=='-'||s[i]=='+'){
+                    if(i==0) base_symbol=true;
+                    else if(i-exp==1&&has_exp==true) exp_symbol=true;
+                    else return false;
+                }else return false;  
+            }
+        }
+        int base_len=(has_point?point:(has_exp?exp:len))-(base_symbol?1:0);
+        int point_len=has_point?((has_exp?exp:len)-point-1):0;
+        int exp_len=has_exp?(len-exp-1-(exp_symbol?1:0)):0;
+        if(((has_point||base_symbol)&&base_len==0&&point_len==0)||
+            ((has_exp||exp_symbol)&&exp_len==0)) return false;
+        return true;
+    }
+}
