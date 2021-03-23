@@ -1,0 +1,17 @@
+public class Solution {
+    public bool IsSubStructure(TreeNode A, TreeNode B) {
+        if(A==null||B==null) return false;
+        while(A!=null){
+            return IsSub(A,B)||IsSubStructure(A.left,B)||IsSubStructure(A.right,B);
+        }
+        return false;
+    }
+    public bool IsSub(TreeNode A, TreeNode B){
+        if(B==null) return true;
+        if(A==null) return false;
+        if(A.val==B.val){
+            return IsSub(A.left,B.left)&&IsSub(A.right,B.right);
+        }
+        return false;
+    }
+}
